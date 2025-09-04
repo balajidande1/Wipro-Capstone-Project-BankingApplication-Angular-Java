@@ -1,0 +1,18 @@
+package com.wipro.balaji.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "balance")
+public class Balance {
+	
+	private Long accountId;
+	
+	private Account account;
+	
+	private
+}
+
+
+

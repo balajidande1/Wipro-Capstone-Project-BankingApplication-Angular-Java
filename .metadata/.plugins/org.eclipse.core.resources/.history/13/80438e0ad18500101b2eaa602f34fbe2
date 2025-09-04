@@ -1,0 +1,20 @@
+package com.wipro.balaji.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wipro.balaji.service.TransactionService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/transactions")
+@RequiredArgsConstructor
+public class TransactionController {
+	
+	private final TransactionService transactionService;
+  
+	
+	
+
+}

@@ -1,0 +1,17 @@
+package com.wipro.balaji.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Account;
+
+@Service
+public interface AccountService {
+
+	Account createAccount(Account account);
+
+	Account getAccountById(Long id);
+
+	Page<Account> getAllAccounts();
+
+}

@@ -1,0 +1,5 @@
+package com.wipro.balaji.client;
+
+public interface PaymentFeignClient {
+
+}

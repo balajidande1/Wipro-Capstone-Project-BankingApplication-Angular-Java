@@ -1,0 +1,5 @@
+package com.wipro.balaji.config;
+
+public class KafkaConsumerConfig {
+
+}

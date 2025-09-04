@@ -1,0 +1,58 @@
+package com.wipro.balaji.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Notification;
+import com.wipro.balaji.repo.NotificationRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class NotificationServiceImpl implements NotificationService {
+	
+	private final NotificationRepository notificationRepository;
+
+	@Override
+	public Notification sendNotification(Notification notification) {
+        notification.setCreatedAt(LocalDateTime.now());
+        notification.setDelivered(false); // initially not delivered
+        return notificationRepository.save(notification);
+	}
+
+	@Override
+	public List<Notification> getAllNotifications() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Notification> getNotificationsByCustomer(Long customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Notification> getNotificationsByTransaction(Long transactionId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Notification> getNotificationsByDeliveryStatus(boolean status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Notification markAsDelivered(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
+}

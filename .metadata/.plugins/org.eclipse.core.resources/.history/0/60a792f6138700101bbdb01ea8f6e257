@@ -1,0 +1,34 @@
+package com.wipro.balaji.consumer;
+
+import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Audit;
+import com.wipro.balaji.model.AuditEvent;
+import org.springframework.kafka.annotation.KafkaListener;
+import com.wipro.balaji.repo.AuditRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AuditConsumer {
+	
+	private final AuditRepository auditRepository;
+	
+    @KafkaListener(topics = "audit-events", groupId = "audit-service", containerFactory = "auditKafkaListenerFactory")
+    public void consume(AuditEvent event) {
+        System.out.println("📝 Received audit event: " + event.getEventType());
+
+        Audit log = new Audit();
+        log.setServiceName(event.getServiceName());
+        log.setEventType(event.getEventType());
+        log.setEventData(event.getEventData());
+        log.setCreatedAt(LocalDateTime.now());
+
+        auditRepository.save(log);
+    }
+	
+
+}

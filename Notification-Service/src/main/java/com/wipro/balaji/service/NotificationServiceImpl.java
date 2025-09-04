@@ -1,0 +1,60 @@
+package com.wipro.balaji.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Notification;
+import com.wipro.balaji.repo.NotificationRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class NotificationServiceImpl implements NotificationService {
+	
+	private final NotificationRepository notificationRepository;
+
+	@Override
+	public Notification sendNotification(Notification notification) {
+        notification.setCreatedAt(LocalDateTime.now());
+        notification.setDelivered(false); // initially not delivered
+        return notificationRepository.save(notification);
+	}
+
+	@Override
+	public List<Notification> getAllNotifications() {
+		
+		return notificationRepository.findAll();
+	}
+
+	@Override
+	public List<Notification> getNotificationsByCustomer(Long customerId) {
+		
+		return notificationRepository.findByCustomerId(customerId);
+	}
+
+	@Override
+	public List<Notification> getNotificationsByTransaction(Long transactionId) {
+		return notificationRepository.findByTransactionId(transactionId);
+	}
+
+	@Override
+	public List<Notification> getNotificationsByDeliveryStatus(boolean delivered) {
+		return notificationRepository.findByDelivered(delivered);
+	}
+
+	@Override
+	public Notification markAsDelivered(Long id) {
+		Notification notification = notificationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Notification not found"));
+        notification.setDelivered(true);
+        return notificationRepository.save(notification);
+	}
+	
+ 
+	
+	
+
+}

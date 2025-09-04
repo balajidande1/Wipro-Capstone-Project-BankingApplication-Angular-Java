@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;com.wipro.balaji.exceptions&apos; to &apos;Account-Service/src/main/java/com.wipro.balaji&apos;&#x0D;&#x0A;- Original project: &apos;Customer-Servicee&apos;&#x0D;&#x0A;- Destination element: &apos;Account-Service/src/main/java/com.wipro.balaji&apos;&#x0D;&#x0A;- Original element: &apos;Customer-Servicee/src/main/java/com.wipro.balaji.exceptions&apos;" description="Copy package" destination="=Account-Service/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.wipro.balaji" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.wipro.balaji.exceptions" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1756646594149" version="1.0"/>
+</session>

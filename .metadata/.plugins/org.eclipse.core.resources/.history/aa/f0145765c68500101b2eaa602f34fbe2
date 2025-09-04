@@ -1,0 +1,39 @@
+package com.wipro.balaji.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Account;
+import com.wipro.balaji.repo.AccountRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AccountServiceImpl implements AccountService{
+	
+	private final AccountRepository accountRepository;
+
+	@Override
+	public Account createAccount(Account account) {
+		
+		return accountRepository.save(account);
+	}
+
+	@Override
+	public Account getAccountById(Long id) {
+	
+		return accountRepository.findById(id).get();
+	}
+
+	@Override
+	public Page<Account> getAllAccounts(Pageable pageable) {
+		
+		return accountRepository.findAll(pageable);
+	}
+
+	
+	
+
+}

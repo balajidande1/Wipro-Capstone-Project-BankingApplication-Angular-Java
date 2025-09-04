@@ -1,0 +1,85 @@
+package com.wipro.balaji.aop;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Aspect
+@Component
+@Slf4j
+public class PaymentAop {
+	
+	 @Before("execution(* com.wipro.paymentservice.controller.PaymentController.createPayment(..))")
+	    public void logBeforeCreate() {
+	        log.warn("Logging before creating a payment...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.createPayment(..))")
+	    public void logAfterCreate() {
+	        log.warn("Logging after creating a payment...");
+	    }
+
+	    @Before("execution(* com.wipro.paymentservice.controller.PaymentController.getPaymentById(..))")
+	    public void logBeforeGetById() {
+	        log.warn("Logging before getting payment by ID...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.getPaymentById(..))")
+	    public void logAfterGetById() {
+	        log.warn("Logging after getting payment by ID...");
+	    }
+
+	    @Before("execution(* com.wipro.paymentservice.controller.PaymentController.getAllPayments(..))")
+	    public void logBeforeGetAll() {
+	        log.warn("Logging before getting all payments...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.getAllPayments(..))")
+	    public void logAfterGetAll() {
+	        log.warn("Logging after getting all payments...");
+	    }
+
+	    @Before("execution(* com.wipro.paymentservice.controller.PaymentController.patchPayment(..))")
+	    public void logBeforePatch() {
+	        log.warn("Logging before patching a payment...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.patchPayment(..))")
+	    public void logAfterPatch() {
+	        log.warn("Logging after patching a payment...");
+	    }
+
+	    @Before("execution(* com.wipro.paymentservice.controller.PaymentController.deletePayment(..))")
+	    public void logBeforeDelete() {
+	        log.warn("Logging before deleting a payment...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.deletePayment(..))")
+	    public void logAfterDelete() {
+	        log.warn("Logging after deleting a payment...");
+	    }
+
+	    @Before("execution(* com.wipro.paymentservice.controller.PaymentController.getPaymentsByStatus(..))")
+	    public void logBeforeGetByStatus() {
+	        log.warn("Logging before getting payments by status...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.getPaymentsByStatus(..))")
+	    public void logAfterGetByStatus() {
+	        log.warn("Logging after getting payments by status...");
+	    }
+
+	    @Before("execution(* com.wipro.paymentservice.controller.PaymentController.getPaymentDetailswithTransaction(..))")
+	    public void logBeforeGetWithTransaction() {
+	        log.warn("Logging before getting payment details with transaction...");
+	    }
+
+	    @After("execution(* com.wipro.paymentservice.controller.PaymentController.getPaymentDetailswithTransaction(..))")
+	    public void logAfterGetWithTransaction() {
+	        log.warn("Logging after getting payment details with transaction...");
+	    }
+
+}

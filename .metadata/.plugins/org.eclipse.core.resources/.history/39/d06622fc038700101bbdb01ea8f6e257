@@ -1,0 +1,124 @@
+package com.wipro.balaji.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.wipro.balaji.dto.AccountDto;
+import com.wipro.balaji.dto.AccountResponse;
+import com.wipro.balaji.dto.AuditEvent;
+import com.wipro.balaji.dto.NotificationEvent;
+import com.wipro.balaji.dto.TransactionEvent;
+import com.wipro.balaji.dto.TransactionWithAccountDto;
+import com.wipro.balaji.entity.Transaction;
+import com.wipro.balaji.enums.TransactionStatus;
+import com.wipro.balaji.exceptions.TransactionNotFoundException;
+import com.wipro.balaji.feign.TransactionFeignClient;
+import com.wipro.balaji.producer.NotificationProducer;
+import com.wipro.balaji.repo.TransactionRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Transactional
+@Service
+@RequiredArgsConstructor
+public class TransactionServiceImpl implements TransactionService {
+	
+	private final TransactionRepository transactionRepository;
+	
+	private final TransactionFeignClient transactionFeignClient;
+	
+	private final NotificationProducer notificationProducer; 
+	
+	@Autowired
+	private KafkaTemplate<String, Object> kafkaTemplate;
+	
+
+
+    // 1. Create Transaction
+    public Transaction createTransaction(Transaction transaction) {
+        // Validate accounts from Account Service
+       /* AccountResponse sourceAccount = accountClient.getAccountById(tx.getSourceAccountId());
+        if (sourceAccount == null) {
+            throw new RuntimeException("Source account not found");
+        }
+
+        if (tx.getDestinationAccountId() != null) {
+            AccountResponse destAccount = accountClient.getAccountById(tx.getDestinationAccountId());
+            if (destAccount == null) {
+                throw new RuntimeException("Destination account not found");
+            }
+        }
+
+        tx.setStatus(TransactionStatus.INITIATED);
+        tx.setCreatedAt(LocalDateTime.now());*/
+
+        return transactionRepository.save(transaction);
+    }
+
+    // 2. Get transaction by ID
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.findById(id)
+                .orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+    }
+
+    // 3. Get all
+    public Page<Transaction> getAllTransactions(Pageable pageable) {
+        return transactionRepository.findAll(pageable);
+    }
+
+    @Override
+    public Transaction updateTransactionStatus(Long id, TransactionStatus status, String failureReason) {
+        Transaction tx = getTransactionById(id);
+        tx.setStatus(status);
+        if (failureReason != null) tx.setFailureReason(failureReason);
+        Transaction updatedTx = transactionRepository.save(tx);
+
+        // Publish notification only if transaction COMPLETED
+        if (status == TransactionStatus.COMPLETED) {
+            // Optional: fetch customerId via AccountService using Feign
+            Long customerId = tx.getSourceAccountId(); // or fetch real customerId
+            NotificationEvent event = new NotificationEvent(
+                customerId,
+                tx.getTransactionId(),
+                "Transaction of " + tx.getAmount() + " " + tx.getCurrency() + " is COMPLETED",
+                "EMAIL"
+            );
+            notificationProducer.publish(event);
+        }
+
+        return updatedTx;
+    }
+
+    // 4. Get by Account ID
+  /*  public List<Transaction> getTransactionsByAccount(Long accountId) {
+        return transactionRepository.findBySourceAccountIdOrDestinationAccountId(accountId, accountId);
+    }*/
+	
+	
+
+	@Override
+	public TransactionWithAccountDto getTransactionWithAccountDetails(Long id) {
+		Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction with Id " + id + " not found"));
+		
+		AccountDto account = transactionFeignClient.getAccountById(transaction.getTransactionId());
+        TransactionWithAccountDto response = new TransactionWithAccountDto();
+        response.setTransactionId(transaction.getTransactionId());
+        response.setSourceAccountId(transaction.getSourceAccountId());
+        response.setDestinationAccountId(transaction.getDestinationAccountId());
+        response.setTransactionType(transaction.getTransactionType());
+        response.setAmount(transaction.getAmount());
+        response.setCurrency(transaction.getCurrency());
+        response.setStatus(transaction.getStatus());
+        response.setAccount(account); // inject account details
+		return response;
+		
+	}
+	
+
+
+}

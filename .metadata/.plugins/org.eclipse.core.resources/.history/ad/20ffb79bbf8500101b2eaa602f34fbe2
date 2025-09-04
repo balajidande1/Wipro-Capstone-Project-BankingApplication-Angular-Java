@@ -1,0 +1,27 @@
+package com.wipro.balaji.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.CustomerRequest;
+import com.wipro.balaji.dto.CustomerResponse;
+import com.wipro.balaji.dto.KycDocumentRequest;
+import com.wipro.balaji.dto.KycDocumentResponse;
+import com.wipro.balaji.entity.Customer;
+import com.wipro.balaji.repo.CustomerRepository;
+import com.wipro.balaji.repo.KycDocumentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CustomerServiceImpl implements CustomerService {
+	
+	private final CustomerRepository customerRepository;
+	private final KycDocumentRepository kycDocumentRepository;
+
+	
+
+}

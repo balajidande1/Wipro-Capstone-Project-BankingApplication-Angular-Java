@@ -1,0 +1,83 @@
+package com.wipro.balaji.service;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Payment;
+import com.wipro.balaji.enums.PaymentStatus;
+import com.wipro.balaji.repo.PaymentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class PaymentServiceImpl implements PaymentService {
+	
+	private final PaymentRepository paymentRepository;
+	
+    @Override
+    public Payment createPayment(Payment payment) {
+        return paymentRepository.save(payment);
+    }
+
+    @Override
+    public Payment getPaymentById(Long id) {
+        return paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment with id " + id + " not found"));
+    }
+
+    @Override
+    public Page<Payment> getAllPayments(Pageable pageable) {
+        return paymentRepository.findAll(pageable);
+    }
+
+    @Override
+    public void deletePaymentById(Long id) {
+        paymentRepository.deleteById(id);
+    }
+
+    @Override
+    public Payment patchPaymentById(Long id, Payment payment) {
+        Payment existedPayment = paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment with id " + id + " not found"));
+
+        if (payment.getTransactionId() != null) {
+            existedPayment.setTransactionId(payment.getTransactionId());
+        }
+        if (payment.getMethod() != null) {
+            existedPayment.setMethod(payment.getMethod());
+        }
+        if (payment.getAmount() != null) {
+            existedPayment.setAmount(payment.getAmount());
+        }
+        if (payment.getCurrency() != null) {
+            existedPayment.setCurrency(payment.getCurrency());
+        }
+        if (payment.getStatus() != null) {
+            existedPayment.setStatus(payment.getStatus());
+        }
+        if (payment.getExternalReferenceId() != null) {
+            existedPayment.setExternalReferenceId(payment.getExternalReferenceId());
+        }
+        if (payment.getFailureReason() != null) {
+            existedPayment.setFailureReason(payment.getFailureReason());
+        }
+        if (payment.getCreatedAt() != null) {
+            existedPayment.setCreatedAt(payment.getCreatedAt());
+        }
+        if (payment.getUpdatedAt() != null) {
+            existedPayment.setUpdatedAt(payment.getUpdatedAt());
+        }
+
+        return paymentRepository.save(existedPayment);
+    }
+
+	@Override
+	public List<Payment> getPaymentsByStatus(PaymentStatus status) {
+		return paymentRepository.findByStatus(status);
+	}
+
+}

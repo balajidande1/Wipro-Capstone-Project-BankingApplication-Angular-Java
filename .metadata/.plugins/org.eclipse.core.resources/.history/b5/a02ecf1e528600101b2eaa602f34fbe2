@@ -1,0 +1,59 @@
+package com.wipro.balaji.controller;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wipro.balaji.entity.Payment;
+import com.wipro.balaji.enums.PaymentStatus;
+import com.wipro.balaji.service.PaymentService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/payment")
+public class PaymentController {
+	
+	private final PaymentService paymentService;
+	
+    @PostMapping("/createPayment")
+    public Payment createPayment(@RequestBody Payment payment) {
+        return paymentService.createPayment(payment);
+    }
+
+    @GetMapping("/{id}")
+    public Payment getPaymentById(@PathVariable Long id) {
+        return paymentService.getPaymentById(id);
+    }
+
+    @GetMapping("/getAllPayments")
+    public Page<Payment> getAllPayments(Pageable pageable) {
+        return paymentService.getAllPayments(pageable);
+    }
+
+    @DeleteMapping("/deletePayment/{id}")
+    public void deletePayment(@PathVariable Long id) {
+        paymentService.deletePaymentById(id);
+    }
+
+    @PatchMapping("/patchPayment/{id}")
+    public Payment patchPayment(@PathVariable Long id, @RequestBody Payment payment) {
+        return paymentService.patchPaymentById(id, payment);
+    }
+    
+    @GetMapping("/status/{status}")
+    public List<Payment> getPaymentsByStatus(@PathVariable PaymentStatus status) {
+        return paymentService.getPaymentsByStatus(status);
+    }
+
+}

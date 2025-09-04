@@ -1,0 +1,56 @@
+package com.wipro.balaji.entity;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.wipro.balaji.enums.AccountStatus;
+import com.wipro.balaji.enums.AccountType;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "accounts")
+public class Account {
+	 	@Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long accountId;
+	 	
+	 	@NotBlank
+	    private String accountNumber;
+	 	
+	 
+	    @Enumerated(EnumType.STRING)
+	    private AccountType accountType;
+	 	
+	 	
+	    @Enumerated(EnumType.STRING)
+	    private AccountStatus accountStatus;
+
+	    @CreationTimestamp
+	    private LocalDate openingDate;
+	    
+	    @NotNull
+	    private BigDecimal availableBalance;
+
+	    private Long customerId;
+
+}
+
+

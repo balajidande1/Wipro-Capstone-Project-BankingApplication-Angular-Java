@@ -1,0 +1,34 @@
+package com.wipro.balaji.dto;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import com.wipro.balaji.enums.PaymentMethod;
+import com.wipro.balaji.enums.PaymentStatus;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PaymentWithTransactionDto {
+	
+    private Long paymentId;
+
+    private Long transactionId; // Link to Transaction Service
+
+    private PaymentMethod method; // UPI, CARD, NETBANKING
+
+    private BigDecimal amount;
+    private String currency;
+
+    private PaymentStatus status;
+    
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private TransactionDto transaction;
+
+}

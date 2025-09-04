@@ -1,0 +1,21 @@
+package com.wipro.balaji.producer;
+
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.NotificationEvent;
+
+@Service
+public class NotificationProducer {
+
+    private final KafkaTemplate<String, NotificationEvent> kafkaTemplate;
+
+    public NotificationProducer(KafkaTemplate<String, NotificationEvent> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void publish(NotificationEvent event) {
+        kafkaTemplate.send("notifications-topic", event);
+        System.out.println("Notification event published for customer: " + event.getCustomerId());
+    }
+}

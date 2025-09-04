@@ -1,0 +1,15 @@
+package com.wipro.balaji.service;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.CustomerRequest;
+import com.wipro.balaji.dto.CustomerResponse;
+
+@Service
+public interface CustomerService {
+
+	CustomerResponse createCustomer(CustomerRequest request);
+
+	CustomerResponse getCustomer(Long id);
+
+}

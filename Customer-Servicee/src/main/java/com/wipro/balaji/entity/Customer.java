@@ -1,0 +1,51 @@
+package com.wipro.balaji.entity;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.wipro.balaji.enums.KycStatus;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "customers")
+public class Customer {
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long customerId; 
+	@NotBlank
+	private String firstName; 
+	@NotBlank
+	private String lastName; 
+	@NotBlank
+	@Column(unique = true, nullable = false) 
+	private String email;
+	@NotBlank
+	private String phone; 
+	private LocalDate dateOfBirth; 
+	
+	private String address; 
+	@Enumerated(EnumType.STRING) 
+	private KycStatus kycStatus; // PENDING, VERIFIED, REJECTED 
+	private LocalDateTime createdAt; 
+	private LocalDateTime updatedAt;
+
+}

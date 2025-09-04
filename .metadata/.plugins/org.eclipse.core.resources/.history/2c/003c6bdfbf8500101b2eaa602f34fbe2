@@ -1,0 +1,52 @@
+package com.wipro.balaji.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.CustomerRequest;
+import com.wipro.balaji.dto.CustomerResponse;
+import com.wipro.balaji.dto.KycDocumentRequest;
+import com.wipro.balaji.dto.KycDocumentResponse;
+import com.wipro.balaji.entity.Customer;
+import com.wipro.balaji.repo.CustomerRepository;
+import com.wipro.balaji.repo.KycDocumentRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CustomerServiceImpl implements CustomerService {
+	
+	private final CustomerRepository customerRepository;
+	private final KycDocumentRepository kycDocumentRepository;
+	@Override
+	public CustomerResponse createCustomer(CustomerRequest request) {
+		
+		return customerRepository.save(request);
+	}
+	@Override
+	public CustomerResponse getCustomer(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<CustomerResponse> getAllCustomers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public KycDocumentResponse uploadKyc(KycDocumentRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public KycDocumentResponse updateKycStatus(Long docId, String status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+}

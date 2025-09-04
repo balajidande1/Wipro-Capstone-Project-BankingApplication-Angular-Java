@@ -1,0 +1,100 @@
+package com.wipro.balaji.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.AccountWithCustomerDto;
+import com.wipro.balaji.dto.CustomerDto;
+import com.wipro.balaji.entity.Account;
+import com.wipro.balaji.feign.AccountFeignClient;
+import com.wipro.balaji.repo.AccountRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AccountServiceImpl implements AccountService{
+	
+	private final AccountRepository accountRepository;
+	private final AccountFeignClient accountFeignClient;
+
+	@Override
+	public Account createAccount(Account account) {
+		
+		return accountRepository.save(account);
+	}
+
+	@Override
+	public Account getAccountById(Long id) {
+	
+		return accountRepository.findById(id).get();
+	}
+
+	@Override
+	public Page<Account> getAllAccounts(Pageable pageable) {
+		
+		return accountRepository.findAll(pageable);
+	}
+
+	@Override
+	public void deleteAccountById(Long id) {
+		accountRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public Account patchAccountById(Long id, Account account) {
+		
+		Account existedAccount = accountRepository.findById(id)
+				.orElseThrow(()->new RuntimeException("Account with that id"+id+" not found"));
+		
+		if(account.getAccountId()!=null) {
+			existedAccount.setAccountId(account.getAccountId());
+		}
+	    if (account.getAccountNumber() != null) {
+	        existedAccount.setAccountNumber(account.getAccountNumber());
+	    }
+	    if (account.getAccountType() != null) {
+	        existedAccount.setAccountType(account.getAccountType());
+	    }
+	    if (account.getAccountStatus() != null) {
+	        existedAccount.setAccountStatus(account.getAccountStatus());
+	    }
+	    if (account.getAvailableBalance() != null) {
+	        existedAccount.setAvailableBalance(account.getAvailableBalance());
+	    }
+	    if (account.getCustomerId() != null) {
+	        existedAccount.setCustomerId(account.getCustomerId());
+	    }
+		
+		
+		return accountRepository.save(existedAccount);
+	}
+
+	@Override
+	public AccountWithCustomerDto getAccountWithCustomer(Long id) {
+		
+		Account account = accountRepository.findById(id)
+				.orElseThrow(()->new RuntimeException("Account with that id "+id+"not found"));
+		
+		CustomerDto customer = accountFeignClient.getCustomerById(account.getAccountId());
+		
+		AccountWithCustomerDto response = new AccountWithCustomerDto();
+		
+		response.setAccountId(account.getAccountId());
+		response.setAccountNumber(account.getAccountNumber());
+		response.setAccountStatus(account.getAccountStatus());
+		response.setAccountType(account.getAccountType());
+		response.setAvailableBalance(account.getAvailableBalance());
+		response.setOpeningDate(account.getOpeningDate());
+		response.setCustomer(customer);
+		return response;
+		
+		
+	}
+
+	
+	
+
+}

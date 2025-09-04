@@ -1,0 +1,5 @@
+package com.wipro.balaji.enums;
+
+public enum NotificationType {
+	EMAIL, SMS
+}

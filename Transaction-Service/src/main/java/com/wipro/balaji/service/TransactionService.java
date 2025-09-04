@@ -1,0 +1,30 @@
+package com.wipro.balaji.service;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.TransactionWithAccountDto;
+import com.wipro.balaji.entity.Transaction;
+import com.wipro.balaji.enums.TransactionStatus;
+
+@Service
+public interface TransactionService {
+
+	Transaction createTransaction(Transaction transaction);
+
+	Transaction getTransactionById(Long id);
+
+	Page<Transaction> getAllTransactions(Pageable pageable);
+
+	Transaction updateTransactionStatus(Long id, TransactionStatus status, String failureReason);
+
+	TransactionWithAccountDto getTransactionWithAccountDetails(Long id);
+
+//	List<Transaction> getTransactionsByAccount(Long accountId);
+
+
+
+}

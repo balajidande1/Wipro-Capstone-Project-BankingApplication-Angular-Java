@@ -1,0 +1,106 @@
+<h2 class="form-title">👤 Customer Management</h2>
+
+<!-- Customer Form -->
+<form (ngSubmit)="saveCustomer()" #customerForm="ngForm">
+  <div>
+    <label>First Name:</label>
+    <input type="text" [(ngModel)]="newCustomer.firstName" name="firstName" required />
+  </div>
+
+  <div>
+    <label>Last Name:</label>
+    <input type="text" [(ngModel)]="newCustomer.lastName" name="lastName" required />
+  </div>
+
+  <div>
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="newCustomer.email" name="email" required />
+  </div>
+
+  <div>
+    <label>Phone:</label>
+    <input type="text" [(ngModel)]="newCustomer.phone" name="phone" required />
+  </div>
+
+  <div>
+    <label>Date of Birth:</label>
+    <input type="date" [(ngModel)]="newCustomer.dateOfBirth" name="dateOfBirth" required />
+  </div>
+
+  <div>
+    <label>Address:</label>
+    <input type="text" [(ngModel)]="newCustomer.address" name="address" required />
+  </div>
+
+  <div>
+    <label>KYC Status:</label>
+    <select [(ngModel)]="newCustomer.kycStatus" name="kycStatus" required>
+      <option value="PENDING">PENDING</option>
+      <option value="VERIFIED">VERIFIED</option>
+      <option value="REJECTED">REJECTED</option>
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="customerForm.invalid">Save</button>
+  <button type="button" (click)="clearForm()">Cancel</button>
+</form>
+
+<hr />
+
+<!-- Search -->
+<h2>🔍 Search Customer</h2>
+<form (ngSubmit)="searchCustomer()" #searchForm="ngForm">
+  <input type="text" [(ngModel)]="searchEmail" name="searchEmail" placeholder="Enter Email" />
+  <button type="submit">Search</button>
+  <button type="button" (click)="clearSearch()">Clear</button>
+</form>
+
+<hr />
+
+<!-- Customers List -->
+<h2>📋 Customers</h2>
+<table class="customer-table" *ngIf="customers.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>First</th>
+      <th>Last</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>DOB</th>
+      <th>Address</th>
+      <th>KYC</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let c of customers">
+      <td>{{ c.customerId }}</td>
+      <td>{{ c.firstName }}</td>
+      <td>{{ c.lastName }}</td>
+      <td>{{ c.email }}</td>
+      <td>{{ c.phone }}</td>
+      <td>{{ c.dateOfBirth | date }}</td>
+      <td>{{ c.address }}</td>
+      <td>{{ c.kycStatus }}</td>
+      <td>
+        <button (click)="viewCustomer(c)">View</button>
+        <button (click)="editCustomer(c)">Edit</button>
+        <button (click)="deleteCustomer(c.customerId!)">Delete</button>
+        <button (click)="patchCustomer(c.customerId!, { kycStatus: 'VERIFIED' })">Verify</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Selected Customer Details -->
+<div *ngIf="selectedCustomer">
+  <h3>📑 Customer Details</h3>
+  <p><strong>ID:</strong> {{ selectedCustomer.customerId }}</p>
+  <p><strong>Name:</strong> {{ selectedCustomer.firstName }} {{ selectedCustomer.lastName }}</p>
+  <p><strong>Email:</strong> {{ selectedCustomer.email }}</p>
+  <p><strong>Phone:</strong> {{ selectedCustomer.phone }}</p>
+  <p><strong>DOB:</strong> {{ selectedCustomer.dateOfBirth | date }}</p>
+  <p><strong>Address:</strong> {{ selectedCustomer.address }}</p>
+  <p><strong>KYC:</strong> {{ selectedCustomer.kycStatus }}</p>
+</div>

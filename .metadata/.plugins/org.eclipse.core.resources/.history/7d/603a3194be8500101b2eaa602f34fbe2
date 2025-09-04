@@ -1,0 +1,20 @@
+package com.wipro.balaji.service;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.CustomerRequest;
+import com.wipro.balaji.dto.CustomerResponse;
+import com.wipro.balaji.dto.KycDocumentRequest;
+
+@Service
+public interface CustomerService {
+
+	CustomerResponse createCustomer(CustomerRequest request);
+
+	CustomerResponse getCustomer(Long id);
+
+	CustomerResponse getAllCustomers();
+
+	Object uploadKyc(KycDocumentRequest request);
+
+}

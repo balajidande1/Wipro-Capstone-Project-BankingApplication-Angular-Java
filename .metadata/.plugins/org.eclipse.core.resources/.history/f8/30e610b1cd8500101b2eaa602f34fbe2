@@ -1,0 +1,16 @@
+package com.wipro.balaji.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class KycDocumentRequest {
+    private Long customerId;
+    private String docType;   // PAN, AADHAR, PASSPORT
+    private String filePath;  // Object storage key
+    private String hashSha256;
+
+}

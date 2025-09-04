@@ -1,0 +1,52 @@
+package com.wipro.balaji.controller;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.wipro.balaji.entity.Account;
+import com.wipro.balaji.service.AccountService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequestMapping("/api/account")
+@RequiredArgsConstructor
+public class AccountController {
+	
+	private final AccountService accountService;
+	
+	@PostMapping("/createAccount")
+	public Account createAccount(@RequestBody Account account) {
+		return accountService.createAccount(account);
+	}
+	
+	@GetMapping("/{id}")
+	public Account getAccountById(@PathVariable Long id) {
+		return accountService.getAccountById(id);
+	}
+	
+	@GetMapping("/getAllAccounts")
+	public Page<Account> getAllAccounts(Pageable pageable){
+		return accountService.getAllAccounts(pageable);
+	}
+	
+	@DeleteMapping("/deleteAccount/{id}")
+	public void deleteAccount(@PathVariable Long id) {
+		accountService.deleteAccountById(id);
+	}
+	
+	@PatchMapping("/patchAccount/{id}")
+	public Account patchAccount(@PathVariable Long id, @RequestBody Account account) {
+		return accountService.patchAccountById(id, account);
+	}
+
+}

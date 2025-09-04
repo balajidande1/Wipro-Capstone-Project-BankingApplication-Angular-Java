@@ -1,0 +1,10 @@
+package com.wipro.balaji;
+
+public class Snippet {
+	@ExceptionHandler(AccountNotFoundException.class)
+	public ResponseEntity<ErrorMessage> handleAccountNotFound(AccountNotFoundException ex) {
+	    ErrorMessage errorMessage = new ErrorMessage("AccountNotFoundException", ex.getMessage());
+	    return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+	}
+}
+

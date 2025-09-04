@@ -1,0 +1,27 @@
+package com.wipro.balaji.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.AccountWithCustomerDto;
+import com.wipro.balaji.entity.Account;
+
+@Service
+public interface AccountService {
+
+	Account createAccount(Account account);
+
+	Account getAccountById(Long id);
+
+	Page<Account> getAllAccounts(Pageable pageable);
+
+	void deleteAccountById(Long id);
+
+	Account patchAccountById(Long id, Account account);
+
+	AccountWithCustomerDto getAccountWithCustomer(Long id);
+
+	
+
+}

@@ -1,0 +1,17 @@
+spring.application.name=Config-Server
+server.port=8092
+
+spring.cloud.config.server.git.uri=https://github.com/SuryaBhaskarG/cloudConfigServer
+
+
+eureka.instance.prefer-ip-address=true
+eureka.instance.hostname=localhost
+
+# Eureka client configuration
+eureka.client.fetch-registry=true
+eureka.client.register-with-eureka=true
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
+
+# Disable compatibility verifier (Spring Cloud version check)
+
+spring.cloud.compatibility-verifier.enabled=false

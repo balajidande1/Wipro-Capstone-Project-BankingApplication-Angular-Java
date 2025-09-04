@@ -1,0 +1,27 @@
+package com.wipro.balaji.service;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Payment;
+import com.wipro.balaji.enums.PaymentStatus;
+
+@Service
+public interface PaymentService {
+	
+    Payment createPayment(Payment payment);
+
+    Payment getPaymentById(Long id);
+
+    Page<Payment> getAllPayments(Pageable pageable);
+
+    void deletePaymentById(Long id);
+
+    Payment patchPaymentById(Long id, Payment payment);
+
+	List<Payment> getPaymentsByStatus(PaymentStatus status);
+
+}

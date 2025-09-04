@@ -1,0 +1,16 @@
+package com.wipro.balaji.feign;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.wipro.balaji.dto.CustomerDto;
+
+
+@FeignClient(name = "CUSTOMER-SERVICE", path = "/api/customers")
+public interface AccountFeignClient {
+	
+	 @GetMapping("/{id}")
+	    public CustomerDto getCustomerById(@PathVariable Long id);
+
+}

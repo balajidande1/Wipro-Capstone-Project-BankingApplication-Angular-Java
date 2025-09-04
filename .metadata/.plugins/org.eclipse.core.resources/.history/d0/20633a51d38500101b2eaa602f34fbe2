@@ -1,0 +1,59 @@
+package com.wipro.balaji.service;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.dto.AccountResponse;
+import com.wipro.balaji.entity.Transaction;
+import com.wipro.balaji.repo.TransactionRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class TransactionServiceImpl implements TransactionService {
+	
+	private final TransactionRepository transactionRepository;
+	
+
+    // 1. Create Transaction
+    public Transaction createTransaction(Transaction transaction) {
+        // Validate accounts from Account Service
+       /* AccountResponse sourceAccount = accountClient.getAccountById(tx.getSourceAccountId());
+        if (sourceAccount == null) {
+            throw new RuntimeException("Source account not found");
+        }
+
+        if (tx.getDestinationAccountId() != null) {
+            AccountResponse destAccount = accountClient.getAccountById(tx.getDestinationAccountId());
+            if (destAccount == null) {
+                throw new RuntimeException("Destination account not found");
+            }
+        }
+
+        tx.setStatus(TransactionStatus.INITIATED);
+        tx.setCreatedAt(LocalDateTime.now());*/
+
+        return transactionRepository.save(transaction);
+    }
+
+    // 2. Get transaction by ID
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+    }
+
+    // 3. Get all
+    public Page<Transaction> getAllTransactions(Pageable pageable) {
+        return transactionRepository.findAll(pageable);
+    }
+
+    // 4. Get by Account ID
+  /*  public List<Transaction> getTransactionsByAccount(Long accountId) {
+        return transactionRepository.findBySourceAccountIdOrDestinationAccountId(accountId, accountId);
+    }*/
+
+   
+
+}

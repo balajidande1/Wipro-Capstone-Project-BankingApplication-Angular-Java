@@ -1,0 +1,80 @@
+package com.wipro.balaji.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Customer;
+import com.wipro.balaji.repo.CustomerRepository;
+
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CustomerServiceImpl implements CustomerService {
+	
+	private final CustomerRepository customerRepository;
+	
+	
+   
+
+    @Override
+    public Customer createCustomer(Customer customer) {
+        customer.setCreatedAt(LocalDateTime.now());
+        customer.setUpdatedAt(LocalDateTime.now());
+        return customerRepository.save(customer);
+    }
+
+    @Override
+    public Customer getCustomerById(Long id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer with id " + id + " not found"));
+    }
+
+    @Override
+    public Page<Customer> getAllCustomers(Pageable pageable) {
+        return customerRepository.findAll(pageable);
+    }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
+    }
+
+    @Override
+    public Customer patchCustomerById(Long id, Customer customer) {
+        Customer existedCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer with id " + id + " not found"));
+
+        if (customer.getFirstName() != null) {
+            existedCustomer.setFirstName(customer.getFirstName());
+        }
+        if (customer.getLastName() != null) {
+            existedCustomer.setLastName(customer.getLastName());
+        }
+        if (customer.getEmail() != null) {
+            existedCustomer.setEmail(customer.getEmail());
+        }
+        if (customer.getPhone() != null) {
+            existedCustomer.setPhone(customer.getPhone());
+        }
+        if (customer.getDateOfBirth() != null) {
+            existedCustomer.setDateOfBirth(customer.getDateOfBirth());
+        }
+        if (customer.getAddress() != null) {
+            existedCustomer.setAddress(customer.getAddress());
+        }
+        if (customer.getKycStatus() != null) {
+            existedCustomer.setKycStatus(customer.getKycStatus());
+        }
+
+        existedCustomer.setUpdatedAt(LocalDateTime.now());
+        return customerRepository.save(existedCustomer);
+    }
+
+
+}

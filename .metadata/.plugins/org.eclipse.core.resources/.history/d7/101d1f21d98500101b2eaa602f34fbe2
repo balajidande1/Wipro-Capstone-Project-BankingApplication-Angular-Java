@@ -1,0 +1,12 @@
+package com.wipro.balaji.service;
+
+import org.springframework.stereotype.Service;
+
+import com.wipro.balaji.entity.Notification;
+
+@Service
+public interface NotificationService {
+
+	Notification sendNotification(Notification notification);
+
+}

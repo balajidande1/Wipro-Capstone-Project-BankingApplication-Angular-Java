@@ -1,0 +1,5 @@
+package com.wipro.balaji.model;
+
+public class AuditEvent {
+
+}
