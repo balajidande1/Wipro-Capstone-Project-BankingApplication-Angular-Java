@@ -1,0 +1,95 @@
+<h2 class="form-title">💰 Transaction Management</h2>
+
+<!-- Transaction Form -->
+<form [formGroup]="transactionForm" (ngSubmit)="onSubmit()" class="transaction-form">
+  <div>
+    <label>Transaction ID</label>
+    <input type="number" formControlName="transactionId" placeholder="Enter transaction ID" />
+  </div>
+
+  <div>
+    <label>Account ID</label>
+    <input type="number" formControlName="accountId" placeholder="Enter account ID" />
+  </div>
+
+  <div>
+    <label>Amount</label>
+    <input type="number" formControlName="amount" placeholder="Enter amount" />
+  </div>
+
+  <div>
+    <label>Type</label>
+    <select formControlName="type">
+      <option value="">Select type</option>
+      <option value="CREDIT">Credit</option>
+      <option value="DEBIT">Debit</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Status</label>
+    <select formControlName="status">
+      <option value="PENDING">Pending</option>
+      <option value="SUCCESS">Success</option>
+      <option value="FAILED">Failed</option>
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="transactionForm.invalid" class="btn btn-primary">Add Transaction</button>
+</form>
+
+<hr />
+
+<!-- Search Transaction -->
+<h2 class="form-title">🔍 Search Transaction</h2>
+<form (ngSubmit)="searchTransaction()">
+  <input type="number" [(ngModel)]="searchId" name="searchId" placeholder="Enter Transaction ID" />
+  <button type="submit" class="btn btn-secondary">Search</button>
+  <button type="button" (click)="clearSearch()" class="btn btn-danger">Clear</button>
+</form>
+
+<!-- Selected Transaction -->
+<div *ngIf="selectedTransaction" class="selected-details">
+  <h3>📑 Transaction Details</h3>
+  <p><strong>ID:</strong> {{ selectedTransaction.transactionId }}</p>
+  <p><strong>Account:</strong> {{ selectedTransaction.accountId }}</p>
+  <p><strong>Amount:</strong> ₹ {{ selectedTransaction.amount | number:'1.2-2' }}</p>
+  <p><strong>Type:</strong> {{ selectedTransaction.type }}</p>
+  <p><strong>Status:</strong> {{ selectedTransaction.status }}</p>
+</div>
+
+<hr />
+
+<!-- Transaction List -->
+<h2 class="form-title">📋 All Transactions</h2>
+<table class="transaction-table" *ngIf="transactions.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Account ID</th>
+      <th>Amount</th>
+      <th>Type</th>
+      <th>Status</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of transactions">
+      <td>{{ t.transactionId }}</td>
+      <td>{{ t.accountId }}</td>
+      <td>₹ {{ t.amount | number:'1.2-2' }}</td>
+      <td>{{ t.type }}</td>
+      <td>{{ t.status }}</td>
+      <td>{{ t.createdAt | date:'short' }}</td>
+      <td>{{ t.updatedAt | date:'short' }}</td>
+      <td>
+        <button (click)="viewTransaction(t)">View</button>
+        <button (click)="patchTransaction(t.transactionId, 'SUCCESS')">Mark Success</button>
+        <button (click)="patchTransaction(t.transactionId, 'FAILED')">Mark Failed</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

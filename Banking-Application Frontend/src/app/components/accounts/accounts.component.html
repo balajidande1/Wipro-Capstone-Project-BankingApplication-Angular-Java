@@ -1,0 +1,82 @@
+<h2 class="form-title">🏦 Account Management</h2>
+
+<!-- Account Form -->
+<form (ngSubmit)="saveAccount()" #accountForm="ngForm">
+  <div>
+    <label>Account Number:</label>
+    <input type="text" [(ngModel)]="newAccount.accountNumber" name="accountNumber" required />
+  </div>
+
+  <div>
+    <label>Account Type:</label>
+    <select [(ngModel)]="newAccount.accountType" name="accountType" required>
+      <option value="SAVINGS">Savings</option>
+      <option value="CURRENT">Current</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Balance:</label>
+    <input type="number" [(ngModel)]="newAccount.balance" name="balance" required />
+  </div>
+
+  <div>
+    <label>Customer ID:</label>
+    <input type="number" [(ngModel)]="newAccount.customerId" name="customerId" required />
+  </div>
+
+  <button type="submit" [disabled]="accountForm.invalid">Save</button>
+  <button type="button" (click)="clearForm()">Cancel</button>
+</form>
+
+<hr />
+
+<!-- Search -->
+<h2>🔍 Search Account</h2>
+<form (ngSubmit)="searchAccount()" #searchForm="ngForm">
+  <input type="text" [(ngModel)]="searchNumber" name="searchNumber" placeholder="Enter Account Number" />
+  <button type="submit">Search</button>
+  <button type="button" (click)="clearSearch()">Clear</button>
+</form>
+
+<hr />
+
+<!-- Account List -->
+<h2>📋 Accounts</h2>
+<table class="account-table" *ngIf="accounts.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Account Number</th>
+      <th>Type</th>
+      <th>Balance</th>
+      <th>Customer ID</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of accounts">
+      <td>{{ account.accountId }}</td>
+      <td>{{ account.accountNumber }}</td>
+      <td>{{ account.accountType }}</td>
+      <td>₹ {{ account.balance | number:'1.2-2' }}</td>
+      <td>{{ account.customerId }}</td>
+      <td>
+        <button (click)="viewAccount(account)">View</button>
+        <button (click)="editAccount(account)">Edit</button>
+        <button (click)="deleteAccount(account.accountId)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Selected Account Details -->
+<div *ngIf="selectedAccount">
+  <h3>📑 Account Details</h3>
+  <p><strong>ID:</strong> {{ selectedAccount.accountId }}</p>
+  <p><strong>Account Number:</strong> {{ selectedAccount.accountNumber }}</p>
+  <p><strong>Type:</strong> {{ selectedAccount.accountType }}</p>
+  <p><strong>Balance:</strong> ₹ {{ selectedAccount.balance }}</p>
+  <p><strong>Customer ID:</strong> {{ selectedAccount.customerId }}</p>
+</div>
+

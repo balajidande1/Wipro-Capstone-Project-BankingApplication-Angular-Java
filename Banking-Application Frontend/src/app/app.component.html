@@ -1,0 +1,16 @@
+
+<div class="container">
+  <header class="header">
+    <h1 class="app-title"> {{ title }} </h1>
+    <nav class="navbar">
+      <a routerLink="/customers" routerLinkActive="active"><i class="fas fa-users"></i> Customers</a>
+      <a routerLink="/accounts" routerLinkActive="active"><i class="fas fa-wallet"></i> Accounts</a>
+      <a routerLink="/transactions" routerLinkActive="active"><i class="fas fa-exchange-alt"></i> Transactions</a>
+      <a routerLink="/payments" routerLinkActive="active"><i class="fas fa-credit-card"></i> Payments</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
